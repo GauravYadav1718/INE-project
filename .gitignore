@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.DS_Store
+
+# User exclusions
+vercel.json
+render.yaml
+README.md
+DESIGN_NOTES.md
+design*/
