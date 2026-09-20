@@ -8,7 +8,9 @@ import { router as cronRouter } from './api/cron.js';
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(cors({
+    origin: ['https://frontend-six-taupe-89.vercel.app', 'http://localhost:5173']
+}));
 app.use(express.json());
 
 // API Routes
