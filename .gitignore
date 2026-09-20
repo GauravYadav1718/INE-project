@@ -6,7 +6,6 @@ dist/
 # User exclusions
 vercel.json
 render.yaml
-README.md
 DESIGN_NOTES.md
 versal.json
 design*/
