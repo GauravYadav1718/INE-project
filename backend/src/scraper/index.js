@@ -69,8 +69,7 @@ export async function scrapeProduct(product) {
 
         if (validation.isValid) {
             // Success via Browser
-            // If totalAttempts > 1, the overall status is technically 'retried' because HTTP failed first
-            await logScrapeResult(product.id, 'retried', Date.now() - startOverall, 'browser', 200, null, totalAttempts);
+            await logScrapeResult(product.id, 'success', Date.now() - startOverall, 'browser', 200, null, totalAttempts);
             return { success: true, product, data: parsed.data };
         } else {
             console.error(`[Scraper] Browser validation failed for ${product.name}: ${validation.error}`);
