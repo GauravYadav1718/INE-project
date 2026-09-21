@@ -186,7 +186,7 @@ export default function ProductDetail() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {log.duration_ms}ms
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" title={log.error_message}>
+                  <td className="px-6 py-4 text-sm text-gray-500 max-w-2xl break-words whitespace-pre-wrap">
                     {log.error_message || '-'}
                   </td>
                 </tr>
