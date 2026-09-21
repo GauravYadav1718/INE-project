@@ -167,7 +167,7 @@ export default function ProductDetail() {
                     formatter={(value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: product.currency || 'USD' }).format(value)}
                     labelStyle={{ color: '#374151' }}
                   />
-                  <Line type="stepAfter" dataKey="priceNum" stroke="#16a34a" strokeWidth={3} dot={chartData.length < 20 ? { r: 4 } : false} activeDot={{ r: 6 }} isAnimationActive={chartData.length > 1} />
+                  <Line type="monotone" dataKey="priceNum" stroke="#16a34a" strokeWidth={3} dot={chartData.length < 20 ? { r: 4 } : false} activeDot={{ r: 6 }} isAnimationActive={chartData.length > 1} />
                   {/* Highlight out of stock periods if requested, for now we just show the line */}
                 </LineChart>
               </ResponsiveContainer>
