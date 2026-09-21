@@ -126,6 +126,34 @@ router.patch('/:id', async (req, res) => {
 });
 
 /**
+ * POST /api/products/:id/scrape
+ * Manually trigger a scrape for a specific product
+ */
+router.post('/:id/scrape', async (req, res) => {
+    try {
+        const { data: product, error } = await supabase.from('products').select('*').eq('id', req.params.id).single();
+        if (error) throw error;
+        
+        const scrapeResult = await scrapeProduct(product);
+        if (scrapeResult.success && scrapeResult.data) {
+            const { price, inStock, stockText, currency } = scrapeResult.data;
+            if (price) {
+                await supabase.from('price_history').insert({
+                    product_id: product.id,
+                    price,
+                    in_stock: inStock,
+                    stock_text: stockText
+                });
+            }
+        }
+        res.json(scrapeResult);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+/**
  * DELETE /api/products/:id
  */
 router.delete('/:id', async (req, res) => {

@@ -13,6 +13,7 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   
   const [showLogs, setShowLogs] = useState(false);
+  const [scraping, setScraping] = useState(false);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
 
@@ -38,6 +39,24 @@ export default function ProductDetail() {
     };
     fetchData();
   }, [id, API_BASE]);
+
+  const handleScrapeNow = async () => {
+    setScraping(true);
+    try {
+      await fetch(`${API_BASE}/api/products/${id}/scrape`, { method: 'POST' });
+      // Refresh the data to show the new point on the graph!
+      const [histRes, logsRes] = await Promise.all([
+        fetch(`${API_BASE}/api/products/${id}/history`),
+        fetch(`${API_BASE}/api/products/${id}/logs`)
+      ]);
+      setHistory(await histRes.json());
+      setLogs(await logsRes.json());
+    } catch (e) {
+      alert('Failed to trigger manual scrape');
+    } finally {
+      setScraping(false);
+    }
+  };
 
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to stop tracking this product and delete all its history?')) return;
@@ -94,6 +113,14 @@ export default function ProductDetail() {
         </div>
         
         <div className="flex items-center space-x-3">
+          <button 
+            onClick={handleScrapeNow} 
+            disabled={scraping}
+            className="btn btn-secondary text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 border-none flex items-center"
+          >
+            {scraping ? <Activity className="w-4 h-4 mr-1 animate-spin" /> : <Activity className="w-4 h-4 mr-1" />}
+            {scraping ? 'Scraping...' : 'Scrape Now'}
+          </button>
           <button onClick={handleToggleActive} className={`btn ${product.is_active ? 'btn-ghost' : 'btn-primary'} text-sm`}>
             {product.is_active ? 'Pause Tracking' : 'Resume Tracking'}
           </button>
