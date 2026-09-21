@@ -140,7 +140,7 @@ export default function ProductDetail() {
                     formatter={(value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: product.currency || 'USD' }).format(value)}
                     labelStyle={{ color: '#374151' }}
                   />
-                  <Line type="stepAfter" dataKey="priceNum" stroke="#16a34a" strokeWidth={3} dot={chartData.length < 20} activeDot={{ r: 6 }} />
+                  <Line type="stepAfter" dataKey="priceNum" stroke="#16a34a" strokeWidth={3} dot={chartData.length < 20 ? { r: 4 } : false} activeDot={{ r: 6 }} isAnimationActive={chartData.length > 1} />
                   {/* Highlight out of stock periods if requested, for now we just show the line */}
                 </LineChart>
               </ResponsiveContainer>
@@ -172,7 +172,7 @@ export default function ProductDetail() {
                     {log.status === 'success' ? (
                       <span className="badge badge-success"><CheckCircle className="w-3 h-3 mr-1"/> Success</span>
                     ) : log.status === 'retried' ? (
-                      <span className="badge badge-warning"><AlertTriangle className="w-3 h-3 mr-1"/> Retried</span>
+                      <span className="badge badge-warning"><AlertTriangle className="w-3 h-3 mr-1"/> Auto-Retried</span>
                     ) : (
                       <span className="badge badge-error"><XCircle className="w-3 h-3 mr-1"/> Failed</span>
                     )}
